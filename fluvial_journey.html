@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluvial Journey - Transporte Fluvial del Chocó</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="brand">
+                    <i class="fas fa-sailboat"></i>
+                    <div>
+                        <h1>Fluvial Journey</h1>
+                        <p>Transporte Fluvial del Chocó</p>
+                    </div>
+                </div>
+                
+                <!-- Hero Image -->
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1720798376172-315db0750330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2xvbWJpYSUyMGNob2NvJTIwcml2ZXIlMjBib2F0JTIwdHJhbnNwb3J0fGVufDF8fHx8MTc1NzQyNTI0OXww&ixlib=rb-4.1.0&q=80&w=1080" alt="Transporte fluvial en el Chocó">
+                    <div class="hero-overlay">
+                        <div class="hero-text">
+                            <h2>Conectando el Chocó por sus ríos</h2>
+                            <p>Rutas seguras y confiables para tu viaje</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Tabs Navigation -->
+            <nav class="tabs-nav">
+                <button class="tab-button active" data-tab="calculator">
+                    <i class="fas fa-water"></i>
+                    <span>Calcular</span>
+                </button>
+                <button class="tab-button" data-tab="ticket">
+                    <i class="fas fa-ticket"></i>
+                    <span>Ticket</span>
+                </button>
+                <button class="tab-button" data-tab="schedule">
+                    <i class="fas fa-clock"></i>
+                    <span>Horarios</span>
+                </button>
+                <button class="tab-button" data-tab="zones">
+                    <i class="fas fa-map"></i>
+                    <span>Zonas</span>
+                </button>
+            </nav>
+
+            <!-- Tab Contents -->
+            <div class="tabs-content">
+                <!-- Calculator Tab -->
+                <div id="calculator" class="tab-content active">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-route"></i> Calculador de Rutas Fluviales</h3>
+                            <p class="card-description">Calcula el tiempo y costo de tu viaje por los ríos del Chocó</p>
+                        </div>
+                        <div class="card-content">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="origin">Origen</label>
+                                    <select id="origin">
+                                        <option value="">Selecciona origen</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="destination">Destino</label>
+                                    <select id="destination" disabled>
+                                        <option value="">Selecciona destino</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button id="calculateRoute" class="btn btn-primary" disabled>Calcular Ruta</button>
+                            
+                            <div id="routeResult" class="route-result hidden">
+                                <div class="result-item">
+                                    <i class="fas fa-clock" style="color: #2563eb;"></i>
+                                    <div>
+                                        <small>Tiempo de viaje</small>
+                                        <strong id="travelTime"></strong>
+                                    </div>
+                                </div>
+                                <div class="result-item">
+                                    <i class="fas fa-dollar-sign" style="color: #16a34a;"></i>
+                                    <div>
+                                        <small>Costo del pasaje</small>
+                                        <strong id="travelCost"></strong>
+                                    </div>
+                                </div>
+                                <div class="result-item">
+                                    <i class="fas fa-map-marker-alt" style="color: #7c3aed;"></i>
+                                    <div>
+                                        <small>Distancia</small>
+                                        <strong id="travelDistance"></strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ticket Tab -->
+                <div id="ticket" class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-ticket"></i> Generar Ticket de Viaje</h3>
+                        </div>
+                        <div class="card-content">
+                            <!-- No Route Message -->
+                            <div id="noRouteMessage" class="no-route-message">
+                                <i class="fas fa-ticket opacity-50"></i>
+                                <p>Primero calcula una ruta para generar tu ticket</p>
+                            </div>
+
+                            <!-- Ticket Form -->
+                            <div id="ticketForm" class="hidden">
+                                <!-- Passenger Information -->
+                                <div class="form-section">
+                                    <h4>Información del Pasajero</h4>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label for="passengerName">Nombre completo</label>
+                                            <input type="text" id="passengerName" placeholder="Ingresa tu nombre completo">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="idNumber">Número de documento</label>
+                                            <input type="text" id="idNumber" placeholder="Cédula o documento de identidad">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="separator"></div>
+
+                                <!-- Payment Method Selection -->
+                                <div class="form-section">
+                                    <h4>Método de Pago</h4>
+                                    <div class="payment-methods">
+                                        <div class="payment-method">
+                                            <input type="radio" id="cash" name="paymentMethod" value="cash" checked>
+                                            <label for="cash" class="payment-label">
+                                                <i class="fas fa-money-bill-wave"></i>
+                                                <div>
+                                                    <strong>Pago en Efectivo</strong>
+                                                    <small>Paga directamente en el puerto al momento del abordaje</small>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div class="payment-method">
+                                            <input type="radio" id="transfer" name="paymentMethod" value="transfer">
+                                            <label for="transfer" class="payment-label">
+                                                <i class="fas fa-university"></i>
+                                                <div>
+                                                    <strong>Transferencia Bancaria</strong>
+                                                    <small>Transferencia a cuenta bancaria</small>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div class="payment-method">
+                                            <input type="radio" id="nequi" name="paymentMethod" value="nequi">
+                                            <label for="nequi" class="payment-label">
+                                                <i class="fas fa-mobile-alt"></i>
+                                                <div>
+                                                    <strong>Nequi</strong>
+                                                    <small>Pago móvil con Nequi</small>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div class="payment-method">
+                                            <input type="radio" id="daviplata" name="paymentMethod" value="daviplata">
+                                            <label for="daviplata" class="payment-label">
+                                                <i class="fas fa-mobile-alt"></i>
+                                                <div>
+                                                    <strong>DaviPlata</strong>
+                                                    <small>Pago móvil con DaviPlata</small>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div class="payment-method">
+                                            <input type="radio" id="bancolombia" name="paymentMethod" value="bancolombia">
+                                            <label for="bancolombia" class="payment-label">
+                                                <i class="fas fa-credit-card"></i>
+                                                <div>
+                                                    <strong>Bancolombia App</strong>
+                                                    <small>Pago con la app de Bancolombia</small>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div id="phoneNumberField" class="form-group hidden">
+                                        <label for="phoneNumber">Número de teléfono</label>
+                                        <input type="tel" id="phoneNumber" placeholder="Ej: 3001234567">
+                                    </div>
+                                </div>
+
+                                <div class="separator"></div>
+
+                                <!-- Trip Summary -->
+                                <div class="form-section">
+                                    <h4>Resumen del Viaje</h4>
+                                    <div id="tripSummary" class="trip-summary">
+                                        <!-- Will be populated by JavaScript -->
+                                    </div>
+                                </div>
+
+                                <button id="generateTicket" class="btn btn-primary btn-large" disabled>
+                                    Generar Ticket
+                                </button>
+                            </div>
+
+                            <!-- Ticket Display -->
+                            <div id="ticketDisplay" class="hidden">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Schedule Tab -->
+                <div id="schedule" class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-water"></i> Horarios en Tiempo Real</h3>
+                            <div class="time-info">
+                                <i class="fas fa-clock"></i>
+                                <span>Actualizado: <span id="currentTime"></span></span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div id="scheduleList" class="schedule-list">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                            <div class="info-message">
+                                <p>Los horarios se actualizan automáticamente cada pocos segundos</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Zones Tab -->
+                <div id="zones" class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-map-marker-alt"></i> Zonas Disponibles</h3>
+                            <p class="card-description">Red de puertos fluviales del departamento del Chocó</p>
+                        </div>
+                        <div class="card-content">
+                            <div class="zones-section">
+                                <h4><i class="fas fa-water"></i> Puertos Activos (8)</h4>
+                                <div id="activeZones" class="zones-grid">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+
+                            <div id="futureZones" class="zones-section hidden">
+                                <h4><i class="fas fa-map-marker-alt"></i> Expansión Futura</h4>
+                                <div class="zones-grid">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+
+                            <div class="info-box">
+                                <h5>Información importante</h5>
+                                <ul>
+                                    <li>• Los horarios pueden variar según las condiciones climáticas</li>
+                                    <li>• Se recomienda llegar 30 minutos antes de la salida</li>
+                                    <li>• Capacidad limitada por embarcación</li>
+                                    <li>• Rutas sujetas a condiciones del río</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Fluvial Journey - Transporte Fluvial del Chocó</p>
+                <p class="footer-subtitle">Conectando comunidades a través de nuestros ríos</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Payment Dialog -->
+    <div id="paymentDialog" class="dialog-overlay hidden">
+        <div class="dialog">
+            <div class="dialog-header">
+                <h3><i class="fas fa-credit-card"></i> Procesar Pago</h3>
+                <button class="dialog-close" onclick="closePaymentDialog()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="dialog-content">
+                <p id="paymentDialogDescription">Confirma el pago</p>
+                <div id="paymentDetails" class="payment-details">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+                <div id="paymentError" class="payment-error hidden">
+                    <p>El pago no pudo ser procesado. Por favor intenta nuevamente o selecciona otro método de pago.</p>
+                </div>
+            </div>
+            <div class="dialog-footer">
+                <button class="btn btn-outline" onclick="closePaymentDialog()">Cancelar</button>
+                <button id="confirmPayment" class="btn btn-primary" onclick="processPayment()">
+                    <i class="fas fa-check-circle"></i>
+                    Confirmar Pago
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
