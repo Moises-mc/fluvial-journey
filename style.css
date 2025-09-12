@@ -49,13 +49,12 @@ body {
 
 /* Header Styles */
 .header {
-    background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+    background: linear-gradient(135deg, #fefeff 0%, #0984e8b2 
+    00%);
     color: white;
     padding: 2rem 0;
-
   
 }
-
 
 .header-content {
     display: flex;
@@ -80,7 +79,7 @@ body {
 }
 
 .brand p {
-    color: #bfdbfe;
+    color: #f8f9f9;
     margin: 0;
 }
 
@@ -118,7 +117,7 @@ body {
 }
 
 .hero-text p {
-    color: #bfdbfe;
+    color: #f0f2f5;
 }
 
 /* Main Content */
@@ -131,7 +130,7 @@ body {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 0;
-    background: var(--muted);
+    background: rgb(101, 183, 251);
     border-radius: var(--radius);
     padding: 0.25rem;
     margin-bottom: 2rem;
@@ -180,7 +179,7 @@ body {
 
 /* Cards */
 .card {
-    background: var(--card);
+    background: rgb(191, 223, 236);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
