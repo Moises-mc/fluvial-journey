@@ -52,7 +52,10 @@ body {
     background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
     color: white;
     padding: 2rem 0;
+
+  
 }
+
 
 .header-content {
     display: flex;
