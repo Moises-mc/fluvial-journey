@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Header -->
     <header class="header">
         <div class="container">
             <div class="header-content">
@@ -20,9 +19,8 @@
                     </div>
                 </div>
                 
-                <!-- Hero Image -->
                 <div class="hero-image">
-                    <img src="/img/fluvial.jpg" alt="Transporte fluvial en el Chocó">
+                    <img src="https://images.unsplash.com/photo-1720798376172-315db0750330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2xvbWJpYSUyMGNob2NvJTIwcml2ZXIlMjBib2F0JTIwdHJhbnNwb3J0fGVufDF8fHx8MTc1NzQyNTI0OXww&ixlib=rb-4.1.0&q=80&w=1080" alt="Transporte fluvial en el Chocó">
                     <div class="hero-overlay">
                         <div class="hero-text">
                             <h2>Conectando el Chocó por sus ríos</h2>
@@ -34,10 +32,8 @@
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="main-content">
         <div class="container">
-            <!-- Tabs Navigation -->
             <nav class="tabs-nav">
                 <button class="tab-button active" data-tab="calculator">
                     <i class="fas fa-water"></i>
@@ -46,6 +42,10 @@
                 <button class="tab-button" data-tab="ticket">
                     <i class="fas fa-ticket"></i>
                     <span>Ticket</span>
+                </button>
+                <button class="tab-button" data-tab="package">
+                    <i class="fas fa-box-open"></i>
+                    <span>Encomienda</span>
                 </button>
                 <button class="tab-button" data-tab="schedule">
                     <i class="fas fa-clock"></i>
@@ -57,9 +57,7 @@
                 </button>
             </nav>
 
-            <!-- Tab Contents -->
             <div class="tabs-content">
-                <!-- Calculator Tab -->
                 <div id="calculator" class="tab-content active">
                     <div class="card">
                         <div class="card-header">
@@ -82,7 +80,6 @@
                                 </div>
                             </div>
                             <button id="calculateRoute" class="btn btn-primary" disabled>Calcular Ruta</button>
-                            
                             <div id="routeResult" class="route-result hidden">
                                 <div class="result-item">
                                     <i class="fas fa-clock" style="color: #2563eb;"></i>
@@ -109,23 +106,19 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Ticket Tab -->
+                
                 <div id="ticket" class="tab-content">
                     <div class="card">
                         <div class="card-header">
                             <h3><i class="fas fa-ticket"></i> Generar Ticket de Viaje</h3>
                         </div>
                         <div class="card-content">
-                            <!-- No Route Message -->
                             <div id="noRouteMessage" class="no-route-message">
                                 <i class="fas fa-ticket opacity-50"></i>
                                 <p>Primero calcula una ruta para generar tu ticket</p>
                             </div>
 
-                            <!-- Ticket Form -->
                             <div id="ticketForm" class="hidden">
-                                <!-- Passenger Information -->
                                 <div class="form-section">
                                     <h4>Información del Pasajero</h4>
                                     <div class="form-grid">
@@ -142,7 +135,6 @@
 
                                 <div class="separator"></div>
 
-                                <!-- Payment Method Selection -->
                                 <div class="form-section">
                                     <h4>Método de Pago</h4>
                                     <div class="payment-methods">
@@ -206,12 +198,10 @@
 
                                 <div class="separator"></div>
 
-                                <!-- Trip Summary -->
                                 <div class="form-section">
                                     <h4>Resumen del Viaje</h4>
                                     <div id="tripSummary" class="trip-summary">
-                                        <!-- Will be populated by JavaScript -->
-                                    </div>
+                                        </div>
                                 </div>
 
                                 <button id="generateTicket" class="btn btn-primary btn-large" disabled>
@@ -219,38 +209,89 @@
                                 </button>
                             </div>
 
-                            <!-- Ticket Display -->
                             <div id="ticketDisplay" class="hidden">
-                                <!-- Will be populated by JavaScript -->
-                            </div>
+                                </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Schedule Tab -->
-                <div id="schedule" class="tab-content">
+                <div id="package" class="tab-content">
                     <div class="card">
                         <div class="card-header">
-                            <h3><i class="fas fa-water"></i> Horarios en Tiempo Real</h3>
-                            <div class="time-info">
-                                <i class="fas fa-clock"></i>
-                                <span>Actualizado: <span id="currentTime"></span></span>
-                            </div>
+                            <h3><i class="fas fa-ship"></i> Servicio de Encomienda</h3>
+                            <p>Envía paquetes por los ríos del Chocó</p>
                         </div>
                         <div class="card-content">
-                            <div id="scheduleList" class="schedule-list">
-                                <!-- Will be populated by JavaScript -->
-                            </div>
-                            <div class="info-message">
-                                <p>Los horarios se actualizan automáticamente cada pocos segundos</p>
-                            </div>
+                            <form id="encomiendaForm" class="form-grid">
+                                <div class="form-group">
+                                    <label for="encomiendaOrigin">Origen</label>
+                                    <select id="encomiendaOrigin">
+                                        <option value="">Selecciona origen</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="encomiendaDestination">Destino</label>
+                                    <select id="encomiendaDestination">
+                                        <option value="">Selecciona destino</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="encomiendaPeso">Peso (kg)</label>
+                                    <input type="number" id="encomiendaPeso" min="0.1" step="0.1" placeholder="Ej: 2.5">
+                                </div>
+                                <div class="form-group">
+                                    <label for="remitenteNombre">Remitente</label>
+                                    <input type="text" id="remitenteNombre" placeholder="Nombre del remitente">
+                                </div>
+                                <div class="form-group">
+                                    <label for="remitenteTel">Teléfono Remitente</label>
+                                    <input type="tel" id="remitenteTel" placeholder="Teléfono del remitente">
+                                </div>
+                                <div class="form-group">
+                                    <label for="destinatarioNombre">Destinatario</label>
+                                    <input type="text" id="destinatarioNombre" placeholder="Nombre del destinatario">
+                                </div>
+                                <div class="form-group">
+                                    <label for="destinatarioTel">Teléfono Destinatario</label>
+                                    <input type="tel" id="destinatarioTel" placeholder="Teléfono del destinatario">
+                                </div>
+                                <div class="form-group">
+                                    <label>Método de Pago</label>
+                                    <div>
+                                        <label><input type="radio" name="encomiendaPaymentMethod" value="cash" checked> Efectivo</label>
+                                        <label><input type="radio" name="encomiendaPaymentMethod" value="transfer"> Transferencia</label>
+                                        <label><input type="radio" name="encomiendaPaymentMethod" value="nequi"> Nequi</label>
+                                        <label><input type="radio" name="encomiendaPaymentMethod" value="daviplata"> DaviPlata</label>
+                                        <label><input type="radio" name="encomiendaPaymentMethod" value="bancolombia"> Bancolombia App</label>
+                                    </div>
+                                </div>
+                                <button type="button" id="generateGuia" class="btn btn-primary" disabled>Generar Guía</button>
+                            </form>
+                            <div id="guiaDisplay" class="hidden"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Zones Tab -->
+                <div id="schedule" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-water"></i> Horarios en Tiempo Real</h3>
+                        <div class="time-info">
+                            <i class="fas fa-clock"></i>
+                            <span>Actualizado: <span id="currentTime"></span></span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div id="scheduleList" class="schedule-list">
+                            </div>
+                        <div class="info-message">
+                            <p>Los horarios se actualizan automáticamente cada pocos segundos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
                 <div id="zones" class="tab-content">
-                    <div class="card">
+                  <div class="card">
                         <div class="card-header">
                             <h3><i class="fas fa-map-marker-alt"></i> Zonas Disponibles</h3>
                             <p class="card-description">Red de puertos fluviales del departamento del Chocó</p>
@@ -259,15 +300,13 @@
                             <div class="zones-section">
                                 <h4><i class="fas fa-water"></i> Puertos Activos (8)</h4>
                                 <div id="activeZones" class="zones-grid">
-                                    <!-- Will be populated by JavaScript -->
-                                </div>
+                                    </div>
                             </div>
 
                             <div id="futureZones" class="zones-section hidden">
                                 <h4><i class="fas fa-map-marker-alt"></i> Expansión Futura</h4>
                                 <div class="zones-grid">
-                                    <!-- Will be populated by JavaScript -->
-                                </div>
+                                    </div>
                             </div>
 
                             <div class="info-box">
@@ -286,17 +325,16 @@
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
+                <img src="./img/logo.png" alt="logo" >
                 <p>&copy; 2025 Fluvial Journey - Transporte Fluvial del Chocó</p>
                 <p class="footer-subtitle">Conectando comunidades a través de nuestros ríos</p>
             </div>
         </div>
     </footer>
 
-    <!-- Payment Dialog -->
     <div id="paymentDialog" class="dialog-overlay hidden">
         <div class="dialog">
             <div class="dialog-header">
@@ -308,8 +346,7 @@
             <div class="dialog-content">
                 <p id="paymentDialogDescription">Confirma el pago</p>
                 <div id="paymentDetails" class="payment-details">
-                    <!-- Will be populated by JavaScript -->
-                </div>
+                    </div>
                 <div id="paymentError" class="payment-error hidden">
                     <p>El pago no pudo ser procesado. Por favor intenta nuevamente o selecciona otro método de pago.</p>
                 </div>
@@ -323,7 +360,7 @@
             </div>
         </div>
     </div>
-
+    
     <script src="script.js"></script>
 </body>
 </html>

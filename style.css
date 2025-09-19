@@ -6,22 +6,22 @@
 }
 
 :root {
-    --primary: #2563eb;
+    --primary: #00509d;
     --primary-foreground: #ffffff;
     --secondary: #64748b;
     --muted: #f1f5f9;
-    --muted-foreground: #64748b;
-    --border: #e2e8f0;
-    --background: #ffffff;
-    --foreground: #0f172a;
+    --muted-foreground: #334155;
+    --border: #cbd5e1;
+    --background: #f8fafc;
+    --foreground: #334155;
     --card: #ffffff;
-    --card-foreground: #0f172a;
-    --green: #16a34a;
-    --red: #dc2626;
-    --orange: #ea580c;
-    --purple: #7c3aed;
-    --blue: #2563eb;
-    --yellow: #eab308;
+    --card-foreground: #334155;
+    --green: #4ade80;
+    --red: #f87171;
+    --orange: #facc15;
+    --purple: #9333ea;
+    --blue: #00b4d8;
+    --yellow: #facc15;
     --radius: 0.5rem;
 }
 
@@ -49,13 +49,10 @@ body {
 
 /* Header Styles */
 .header {
-    background: linear-gradient(135deg, #fefeff 0%, #0984e8b2 
-    00%);
+    background: linear-gradient(135deg, #3c94e7 100%, #0e819b 100%);
     color: white;
     padding: 2rem 0;
-  
 }
-
 .header-content {
     display: flex;
     flex-direction: column;
@@ -130,7 +127,7 @@ body {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 0;
-    background: rgb(101, 183, 251);
+    background: rgb(92, 172, 238);
     border-radius: var(--radius);
     padding: 0.25rem;
     margin-bottom: 2rem;
@@ -179,7 +176,7 @@ body {
 
 /* Cards */
 .card {
-    background: rgb(191, 223, 236);
+    background: rgb(179, 212, 225);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
@@ -842,6 +839,9 @@ body {
     padding: 2rem 0;
     margin-top: 3rem;
 }
+.footer img{
+    width: 20%;
+}
 
 .footer-content {
     text-align: center;
@@ -916,4 +916,93 @@ body {
     body {
         background: white;
     }
+}
+/* --- Estilos específicos para la sección de Encomiendas --- */
+#encomiendas-tab h3 {
+    margin-bottom: 1rem;
+}
+
+#encomiendas-tab p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+}
+
+#encomiendaForm .form-container {
+    padding: 0;
+    gap: 1.2rem;
+}
+
+#encomiendaForm h4 {
+    color: var(--primary);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Campos de entrada para la encomienda */
+#encomiendaForm .input-group input,
+#encomiendaForm .input-group select {
+    background-color: #f9fafb;
+}
+
+/* Botón principal de la encomienda */
+#encomiendaForm .btn-primary {
+    margin-top: 1.5rem;
+}
+
+/* --- Estilos para la Guía del Paquete --- */
+#guiaDisplay {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+#guiaDisplay .ticket {
+    max-width: 500px;
+    margin: 0 auto;
+    border: 2px dashed var(--primary);
+    background-color: var(--card-bg);
+}
+
+#guiaDisplay .ticket-header h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+#guiaDisplay .ticket-info, 
+#guiaDisplay .ticket-times {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding: 1rem 0;
+    text-align: left;
+}
+
+#guiaDisplay .ticket-times {
+    grid-template-columns: 1fr 1fr;
+}
+
+#guiaDisplay .ticket-field {
+    align-items: flex-start;
+}
+
+#guiaDisplay .ticket-field i {
+    font-size: 1.2rem;
+    padding-top: 0.2rem;
+}
+
+#guiaDisplay .ticket-field small {
+    font-weight: normal;
+    font-size: 0.8rem;
+}
+
+#guiaDisplay .ticket-field strong {
+    font-size: 1rem;
+}
+
+#guiaDisplay .separator {
+    background: linear-gradient(90deg, var(--background) 50%, transparent 50%), linear-gradient(90deg, var(--background) 50%, transparent 50%);
+}
+
+#guiaDisplay .ticket-actions {
+    margin-top: 2rem;
 }

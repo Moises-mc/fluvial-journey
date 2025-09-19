@@ -56,6 +56,13 @@ const routes = {
     }
 };
 
+// Encomienda prices based on weight (kg)
+const encomiendaPrices = {
+    baseCost: 5000,
+    costPerKg: 1500,
+    costPerKm: 150,
+};
+
 // Schedule data
 let schedules = [
     {
@@ -461,7 +468,7 @@ function updateTripSummary() {
 
 function handleGenerateTicket() {
     if (currentPaymentMethod === 'cash') {
-        generateTicket('completed');
+        generateTicket('pending');
     } else {
         showPaymentDialog();
     }
@@ -580,7 +587,7 @@ function renderTicket() {
     ticketDisplay.innerHTML = `
         <div class="ticket">
             <div class="ticket-header">
-                <img class="logo" src="/img/logo.png" alt="logo fluvialjourney" height="100">
+                <img class="logo" src="./img/logo.png" alt="logo fluvialjourney" height="100">
                 <h2>FLUVIAL JOURNEY</h2>
                 <p>Transporte Fluvial del Chocó</p>
                 <div class="ticket-badges">
@@ -734,18 +741,163 @@ function resetTicket() {
     updateTripSummary();
 }
 
+// Encomienda functionality
+function initEncomienda() {
+    const originSelect = document.getElementById('encomiendaOrigin');
+    const destinationSelect = document.getElementById('encomiendaDestination');
+    const pesoInput = document.getElementById('encomiendaPeso');
+    const remitenteInput = document.getElementById('remitenteNombre');
+    const remitenteTelInput = document.getElementById('remitenteTel');
+    const destinatarioInput = document.getElementById('destinatarioNombre');
+    const destinatarioTelInput = document.getElementById('destinatarioTel');
+    const generateButton = document.getElementById('generateGuia');
+    const guiaDisplay = document.getElementById('guiaDisplay');
+
+    // Populate origin and destination selects
+    const cities = Object.keys(routes);
+    cities.forEach(city => {
+        const originOption = document.createElement('option');
+        originOption.value = city;
+        originOption.textContent = city;
+        originSelect.appendChild(originOption);
+
+        const destOption = document.createElement('option');
+        destOption.value = city;
+        destOption.textContent = city;
+        destinationSelect.appendChild(destOption);
+    });
+
+    // Check form validity and enable button
+    function checkFormValidity() {
+        const origin = originSelect.value;
+        const destination = destinationSelect.value;
+        const peso = parseFloat(pesoInput.value);
+        const remitente = remitenteInput.value.trim();
+        const destinatario = destinatarioInput.value.trim();
+        const remitenteTel = remitenteTelInput.value.trim();
+        const destinatarioTel = destinatarioTelInput.value.trim();
+
+        const isValid = origin && destination && origin !== destination && !isNaN(peso) && peso > 0 && remitente && destinatario && remitenteTel && destinatarioTel;
+        generateButton.disabled = !isValid;
+    }
+
+    // Input change handlers
+    originSelect.addEventListener('change', checkFormValidity);
+    destinationSelect.addEventListener('change', checkFormValidity);
+    pesoInput.addEventListener('input', checkFormValidity);
+    remitenteInput.addEventListener('input', checkFormValidity);
+    destinatarioInput.addEventListener('input', checkFormValidity);
+    remitenteTelInput.addEventListener('input', checkFormValidity);
+    destinatarioTelInput.addEventListener('input', checkFormValidity);
+
+    // Generate button handler
+    generateButton.addEventListener('click', () => {
+        const origin = originSelect.value;
+        const destination = destinationSelect.value;
+        const peso = parseFloat(pesoInput.value);
+        const remitente = remitenteInput.value.trim();
+        const destinatario = destinatarioInput.value.trim();
+        const remitenteTel = remitenteTelInput.value.trim();
+        const destinatarioTel = destinatarioTelInput.value.trim();
+        const paymentMethod = document.querySelector('input[name="encomiendaPaymentMethod"]:checked').value;
+
+        // Calculate cost
+        const distance = routes[origin][destination].distance;
+        const cost = encomiendaPrices.baseCost + (peso * encomiendaPrices.costPerKg) + (distance * encomiendaPrices.costPerKm);
+        
+        // Generate guia data
+        const guiaData = {
+            guiaNumber: `GUIA-${Date.now().toString().slice(-6)}`,
+            origin,
+            destination,
+            peso,
+            cost,
+            remitente,
+            remitenteTel,
+            destinatario,
+            destinatarioTel,
+            paymentMethod: paymentMethods[paymentMethod].name,
+            issueDate: new Date(),
+        };
+
+        // Render guia
+        renderGuia(guiaData);
+    });
+    
+    function renderGuia(guia) {
+        guiaDisplay.classList.remove('hidden');
+        guiaDisplay.innerHTML = `
+            <div class="ticket">
+                <div class="ticket-header">
+                    <h2>GUÍA DE ENCOMIENDA</h2>
+                    <p>Número de Guía: <strong>${guia.guiaNumber}</strong></p>
+                </div>
+                <div class="separator"></div>
+                <div class="ticket-info">
+                    <div class="ticket-field">
+                        <small>Origen</small>
+                        <strong>${guia.origin}</strong>
+                    </div>
+                    <div class="ticket-field">
+                        <small>Destino</small>
+                        <strong>${guia.destination}</strong>
+                    </div>
+                    <div class="ticket-field">
+                        <small>Remitente</small>
+                        <strong>${guia.remitente}</strong>
+                        <small>${guia.remitenteTel}</small>
+                    </div>
+                    <div class="ticket-field">
+                        <small>Destinatario</small>
+                        <strong>${guia.destinatario}</strong>
+                        <small>${guia.destinatarioTel}</small>
+                    </div>
+                    <div class="ticket-field">
+                        <small>Peso</small>
+                        <strong>${guia.peso} kg</strong>
+                    </div>
+                    <div class="ticket-field">
+                        <small>Costo del Envío</small>
+                        <strong>${formatCurrency(guia.cost)}</strong>
+                    </div>
+                    <div class="ticket-field">
+                        <small>Método de Pago</small>
+                        <strong>${guia.paymentMethod}</strong>
+                    </div>
+                </div>
+                <div class="separator"></div>
+                <div class="ticket-footer">
+                    <p>Emitido el ${formatDateOnly(guia.issueDate)} a las ${formatTimeOnly(guia.issueDate)}</p>
+                    <p>Presente esta guía en el punto de entrega</p>
+                </div>
+            </div>
+            <div class="ticket-actions">
+                <button class="btn btn-outline" onclick="printGuia()">
+                    <i class="fas fa-print"></i>
+                    Imprimir Guía
+                </button>
+            </div>
+        `;
+    }
+}
+
+function printGuia() {
+    window.print();
+}
+
 // Schedule functionality
 function initScheduleBoard() {
-    renderSchedule();
-    updateCurrentTime();
+    // Check if the schedule tab exists to avoid errors on other pages
+    const scheduleTab = document.getElementById('schedule');
+    if (!scheduleTab) return;
     
-    // Update time every second
-    setInterval(updateCurrentTime, 1000);
+    renderSchedule();
     
     // Simulate real-time updates
     setInterval(() => {
+        // Randomly update statuses and occupancy
         schedules = schedules.map(schedule => {
-            if (Math.random() > 0.95) {
+            if (Math.random() > 0.95) { // Small chance of update
                 if (schedule.status === 'on-time' && Math.random() > 0.7) {
                     return { ...schedule, status: 'boarding' };
                 }
@@ -763,11 +915,6 @@ function initScheduleBoard() {
         });
         renderSchedule();
     }, 3000);
-}
-
-function updateCurrentTime() {
-    const now = new Date();
-    document.getElementById('currentTime').textContent = now.toLocaleTimeString('es-CO');
 }
 
 function renderSchedule() {
@@ -842,6 +989,10 @@ function getOccupancyColor(occupancy, capacity) {
 
 // Zones functionality
 function initZones() {
+    // Check if the zones tab exists
+    const zonesTab = document.getElementById('zones');
+    if (!zonesTab) return;
+    
     renderZones();
 }
 
@@ -887,10 +1038,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initTabs();
     initRouteCalculator();
     initTicketGenerator();
+    initEncomienda();
     initScheduleBoard();
     initZones();
     updateTicketTab();
     updatePhoneNumberVisibility();
     updateGenerateButton();
 });
-
