@@ -554,26 +554,42 @@ function generateTicket(paymentStatus) {
     const passengerName = document.getElementById('passengerName').value.trim();
     const idNumber = document.getElementById('idNumber').value.trim();
     const phoneNumber = document.getElementById('phoneNumber').value.trim();
-    
+    const travelDate = document.getElementById('travelDate').value;
+    const departureTimeValue = document.getElementById('departureTime').value;
+
+    // Si el usuario seleccionó fecha y hora, usarlas en el ticket
+    let departureDateObj = null;
+    let arrivalDateObj = null;
+    if (travelDate && departureTimeValue && currentRoute) {
+        // Construir la fecha de salida con la hora seleccionada
+        const [hour, minute] = departureTimeValue.split(':');
+        departureDateObj = new Date(travelDate + 'T' + hour.padStart(2, '0') + ':' + minute.padStart(2, '0'));
+        arrivalDateObj = new Date(departureDateObj.getTime() + currentRoute.time * 60 * 60000);
+    } else {
+        // Fallback: usar la fecha y hora actual + 30 min
+        const now = new Date();
+        departureDateObj = new Date(now.getTime() + 30 * 60000);
+        arrivalDateObj = new Date(departureDateObj.getTime() + currentRoute.time * 60 * 60000);
+    }
+
     const now = new Date();
-    const departureTime = new Date(now.getTime() + 30 * 60000); // 30 min from now
-    const arrivalTime = new Date(departureTime.getTime() + currentRoute.time * 60 * 60000);
-    
     const ticketNumber = `FJ${Date.now().toString().slice(-6)}`;
-    
+
     currentTicket = {
         ticketNumber,
         passengerName,
         idNumber,
         phoneNumber,
         route: currentRoute,
-        departureTime,
-        arrivalTime,
+        departureTime: departureDateObj,
+        arrivalTime: arrivalDateObj,
+        travelDate,
+        selectedDepartureTime: departureTimeValue,
         issueDate: now,
         paymentMethod: currentPaymentMethod,
         paymentStatus,
     };
-    
+
     renderTicket();
 }
 
@@ -587,7 +603,7 @@ function renderTicket() {
     ticketDisplay.innerHTML = `
         <div class="ticket">
             <div class="ticket-header">
-                <img class="logo" src="./img/logo.png" alt="logo fluvialjourney" height="100">
+                <img class="logo" src="/img/logo.png" alt="logo fluvialjourney" height="100">
                 <h2>FLUVIAL JOURNEY</h2>
                 <p>Transporte Fluvial del Chocó</p>
                 <div class="ticket-badges">
@@ -606,7 +622,6 @@ function renderTicket() {
                         <strong>${currentTicket.passengerName}</strong>
                     </div>
                 </div>
-                
                 <div class="ticket-field">
                     <i class="fas fa-id-card" style="color: var(--blue);"></i>
                     <div>
@@ -614,7 +629,6 @@ function renderTicket() {
                         <strong>${currentTicket.idNumber}</strong>
                     </div>
                 </div>
-
                 ${currentTicket.phoneNumber ? `
                     <div class="ticket-field">
                         <i class="fas fa-mobile-alt" style="color: var(--blue);"></i>
@@ -624,7 +638,6 @@ function renderTicket() {
                         </div>
                     </div>
                 ` : ''}
-
                 <div class="ticket-field">
                     <i class="fas fa-route" style="color: var(--green);"></i>
                     <div>
@@ -632,7 +645,6 @@ function renderTicket() {
                         <strong>${currentTicket.route.origin} → ${currentTicket.route.destination}</strong>
                     </div>
                 </div>
-                
                 <div class="ticket-field">
                     <i class="fas fa-dollar-sign" style="color: var(--green);"></i>
                     <div>
@@ -640,7 +652,20 @@ function renderTicket() {
                         <strong>${formatCurrency(currentTicket.route.cost)}</strong>
                     </div>
                 </div>
-
+                <div class="ticket-field">
+                    <i class="fas fa-calendar-alt" style="color: var(--orange);"></i>
+                    <div>
+                        <small>Fecha seleccionada</small>
+                        <strong>${currentTicket.travelDate ? currentTicket.travelDate : formatDateOnly(currentTicket.departureTime)}</strong>
+                    </div>
+                </div>
+                <div class="ticket-field">
+                    <i class="fas fa-clock" style="color: var(--purple);"></i>
+                    <div>
+                        <small>Hora seleccionada</small>
+                        <strong>${currentTicket.selectedDepartureTime ? currentTicket.selectedDepartureTime : formatTimeOnly(currentTicket.departureTime)}</strong>
+                    </div>
+                </div>
                 <div class="ticket-field">
                     <i class="fas fa-credit-card" style="color: var(--purple);"></i>
                     <div>
@@ -661,7 +686,6 @@ function renderTicket() {
                         <small style="display: block; margin-top: 0.25rem;">${formatDateOnly(currentTicket.departureTime)}</small>
                     </div>
                 </div>
-                
                 <div>
                     <i class="fas fa-clock" style="color: var(--purple); margin-bottom: 0.25rem;"></i>
                     <div>
@@ -670,7 +694,6 @@ function renderTicket() {
                         <small style="display: block; margin-top: 0.25rem;">${formatDateOnly(currentTicket.arrivalTime)}</small>
                     </div>
                 </div>
-                
                 <div>
                     <i class="fas fa-map-marker-alt" style="color: var(--red); margin-bottom: 0.25rem;"></i>
                     <div>

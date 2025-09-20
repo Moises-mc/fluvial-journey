@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fluvial Journey - Transporte Fluvial del Chocó</title>
+    <link rel="icon" href="./img/logo.png" type="image/png">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -141,12 +142,12 @@
                                             <input type="text" id="idNumber" placeholder="Cédula o documento de identidad">
                                         </div>
                                         <div class="form-group">
-                                         <label for="ticketDate">Fecha de viaje</label>
-                                         <input type="date" id="ticketDate" required>
+                                         <label for="departureDate">Fecha de viaje</label>
+                                         <input type="date" id="departureDate" class="form-control" required>
                                         </div>
                                         <div class="form-group">
-                                         <label for="ticketTime">Hora de salida</label>
-                                         <input type="time" id="ticketTime" required>
+                                         <label for="departureTime">Hora de salida</label>
+                                         <input type="time" id="departureTime" class="form-control" required>
                                         </div>
                                     </div>
                                 </div>
@@ -323,7 +324,12 @@
 
                             <div id="futureZones" class="zones-section hidden">
                                 <h4><i class="fas fa-map-marker-alt"></i> Expansión Futura</h4>
-                                <div class="zones-grid">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="origin">Origen</label>
+                                        <select id="origin">
+                                            <option value="">Selecciona origen</option>
+                                        </select>
                                     </div>
                             </div>
 
