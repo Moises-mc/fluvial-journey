@@ -868,12 +868,18 @@ function initEncomienda() {
                     <div class="ticket-field">
                         <small>Remitente</small>
                         <strong>${guia.remitente}</strong>
-                        <small>${guia.remitenteTel}</small>
+                    </div>
+                    <div class="ticket-field">    
+                        <small>Telefono</small>
+                        <strong>${guia.remitenteTel}</strong>
                     </div>
                     <div class="ticket-field">
                         <small>Destinatario</small>
                         <strong>${guia.destinatario}</strong>
-                        <small>${guia.destinatarioTel}</small>
+                    </div> 
+                    <div class="ticket-field">   
+                        <small>Telefono</small>
+                        <strong>${guia.destinatarioTel}</strong>
                     </div>
                     <div class="ticket-field">
                         <small>Peso</small>
