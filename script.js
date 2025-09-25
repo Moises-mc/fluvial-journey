@@ -603,7 +603,7 @@ function renderTicket() {
     ticketDisplay.innerHTML = `
         <div class="ticket">
             <div class="ticket-header">
-                <img class="logo" src="/img/logo.png" alt="logo fluvialjourney" height="100">
+                <img class="logo" src="./img/logo.png" alt="logo fluvialjourney" height="100">
                 <h2>FLUVIAL JOURNEY</h2>
                 <p>Transporte Fluvial del Chocó</p>
                 <div class="ticket-badges">
